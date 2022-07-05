@@ -34,6 +34,17 @@ spec:
         prometheus.io/port: "8888"
         prometheus.io/path: /actuator/prometheus        
     spec:
+        affinity:
+          podAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In  # NotIn, Exists, NotExists
+                  values:
+                  - frontend
+              topologyKey: topology.kubernetes.io/hostname
+
       volumes: 
       - name: elastic-apm-agent 
         emptyDir: {}    
