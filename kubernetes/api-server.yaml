@@ -35,15 +35,15 @@ spec:
         prometheus.io/path: /actuator/prometheus        
     spec:
       affinity:
-        podAffinity:
+        podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
           - labelSelector:
               matchExpressions:
               - key: app
-              operator: In  # NotIn, Exists, NotExists
-              values:
-              - frontend
-            topologyKey: topology.kubernetes.io/hostname
+                operator: In
+                values:
+                - frontend
+            topologyKey: "kubernetes.io/hostname"
       volumes: 
       - name: elastic-apm-agent 
         emptyDir: {}    
