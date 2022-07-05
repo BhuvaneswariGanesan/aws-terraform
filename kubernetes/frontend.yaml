@@ -29,7 +29,7 @@ spec:
         app: frontend
     spec:
       containers:
-      - image: kushagratandon12/smart_bank_fronend:nginx
+      - image: brainupgrade/sba-frontend:nginx
         name: frontend
         imagePullPolicy: Always
         ports:
