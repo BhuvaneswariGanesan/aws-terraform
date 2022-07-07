@@ -62,9 +62,32 @@ spec:
           name: elastic-apm-agent 
         command: ['cp', '-v', '/usr/agent/elastic-apm-agent.jar', '/elastic/apm/agent']     
       containers:
-      - image: brainupgrade/sba-apiserver:usage
+      - image: kushagratandon12/smart_bank_backend:k8s
         name: sba-apiserver
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+            # scheme: HTTPS
+          initialDelaySeconds: 30
+          periodSeconds: 5
+          successThreshold: 1
+          failureThreshold: 2
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8080
+            # scheme: HTTPS
+          initialDelaySeconds: 30
+          periodSeconds: 5
+          successThreshold: 1
+          failureThreshold: 2
         imagePullPolicy: Always
+        resources:
+          limits:
+            cpu: 500m
+          requests:
+            cpu: 200m
         volumeMounts: 
         - mountPath: /elastic/apm/agent 
           name: elastic-apm-agent          
@@ -90,7 +113,7 @@ spec:
                 name: app-config
                 key: ELASTIC_APM_APPLICATION_PACKAGES
           - name: ELASTIC_APM_SERVICE_NAME 
-            value: "apiserver-bhuvaneswari" 
+            value: "apiserver-kushagra" 
           - name: ELASTIC_APM_ENVIRONMENT 
             value: prod
           - name: ELASTIC_APM_LOG_LEVEL 
@@ -104,4 +127,4 @@ spec:
           - name: management.metrics.web.server.request.autotime.enabled
             value: "true"
           - name: management.metrics.tags.application
-            value: apiserver-bhuvaneswari
+            value: apiserver-kushagra
